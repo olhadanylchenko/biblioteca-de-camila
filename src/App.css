@@ -1,12 +1,19 @@
 @import url("https://fonts.googleapis.com/css?family=Work+Sans&display=swap");
-
+@import url("https://fonts.googleapis.com/css?family=Codystar:300&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Nothing+You+Could+Do&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Homemade+Apple&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Roboto:300i,400&display=swap");
 body {
   background-color: #181b25;
   font-family: "Work Sans", Arial, Helvetica, sans-serif;
   color: #acb3c8;
 }
 h1 {
+  font-family: "Homemade Apple", sans-serif;
+  font-weight: 300;
   text-align: center;
+  font-size: 3rem;
+  margin-bottom: 0.2rem;
 }
 header {
   /* background-color: #; */
@@ -38,6 +45,37 @@ th {
 td {
   background-color: #292e3c;
   text-align: center;
+
+  /* padding-bottom: 0; */
+}
+
+.searchTd {
+  position: relative;
+  height: 30.59px;
+}
+
+.search {
+  width: 130px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  font-size: 16px;
+  /* background-image: url("search.png"); */
+
+  padding: 12px 20px 12px 40px;
+  transition: width 0.4s ease-in-out;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.search:focus {
+  width: 20rem;
+}
+
+.searchLabel {
+  position: absolute;
+  top: 0.2em;
+  right: 0.8em;
 }
 
 #add {
@@ -49,7 +87,8 @@ td {
 }
 
 .addingBooks input,
-.addingBooks button {
+.addingBooks button,
+.editInput {
   box-sizing: border-box;
   display: block;
   margin: 0;
@@ -60,6 +99,17 @@ td {
   padding: 0.3rem;
 }
 
+.editInput {
+  text-align: center;
+}
+
+.img-button {
+  visibility: hidden;
+}
+
+.check-hide {
+  visibility: hidden;
+}
 .addingBooks input {
   border: none;
 }
@@ -67,4 +117,26 @@ td {
 .addingBooks td {
   padding: 0;
   background: none;
+}
+
+.table-button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}
+
+.edit {
+  box-sizing: border-box;
+  display: block;
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  font-size: 1.1rem;
+  padding: 0.3rem;
+  border: none;
 }

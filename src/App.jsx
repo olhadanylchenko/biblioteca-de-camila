@@ -1,19 +1,27 @@
 import React from "react";
 import "./App.css";
 import edit from "./edit.png";
+import search from "./search.png";
 import del from "./del.png";
 import check from "./check.png";
 import db from "localforage";
+import BookList from "./BookList";
 
 class App extends React.Component {
   state = {
-    books: []
+    books: [],
+    edit: -1,
+    search: ""
   };
   constructor(props) {
     super(props);
 
     db.getItem("books").then(books => {
-      this.setState({ books });
+      if (books) {
+        this.setState({ books });
+      } else {
+        db.setItem("books", this.state.books);
+      }
     });
   }
 
@@ -25,9 +33,10 @@ class App extends React.Component {
     e.preventDefault();
     const books = [...this.state.books];
     const book = {
-      index: books[books.length - 1] ? books[books.length - 1].index + 1 : 1,
+      id: books[books.length - 1] ? books[books.length - 1].id + 1 : 1,
       author: this.authorRef.current.value,
-      title: this.titleRef.current.value
+      title: this.titleRef.current.value,
+      finished: false
     };
     books.push(book);
     this.setState({
@@ -37,13 +46,60 @@ class App extends React.Component {
     this.formRef.current.reset();
   };
 
-  onDelete = e => {
+  onDelete = id => () => {
+    const books = this.state.books.filter(book => book.id !== id);
+    this.setState({
+      books,
+      edit: -1
+    });
+    db.setItem("books", books);
+  };
+
+  onCheck = index => () => {
+    const book = {
+      ...this.state.books[index]
+    };
+    book.finished = book.finished ? false : true;
+    this.toggleBookFinished(index, book);
+  };
+
+  toggleBookFinished = (index, book) => {
     const books = [...this.state.books];
-    books.splice(0, 1);
+    books[index] = book;
     this.setState({
       books
     });
     db.setItem("books", books);
+  };
+
+  onClickEdit = index => event => {
+    if (this.state.edit !== index) {
+      this.setState({
+        edit: index
+      });
+    } else {
+      this.setState({
+        edit: -1
+      });
+    }
+  };
+
+  onChange = e => {
+    const books = [...this.state.books];
+    const book = {
+      ...this.state.books[this.state.edit],
+      [e.currentTarget.name]: e.currentTarget.value
+    };
+    books.splice(this.state.edit, 1, book);
+    this.setState({
+      books
+    });
+  };
+
+  searchOnChange = e => {
+    this.setState({
+      search: e.target.value
+    });
   };
 
   render() {
@@ -51,50 +107,71 @@ class App extends React.Component {
       <div className="App">
         <header></header>
         <h1>Biblioteca de Camila</h1>
-        <button type="button" onClick={this.onDelete}>
-          DELETE
-        </button>
+
         <form onSubmit={this.onSubmit} ref={this.formRef}>
           <table>
-            <tr className="addingBooks">
-              <td></td>
-              <td>
-                <input type="text" placeholder="author" ref={this.authorRef} />
-              </td>
-              <td>
-                <input type="text" placeholder="title" ref={this.titleRef} />
-              </td>
-              <td colSpan="3">
-                <button id="add" type="submit">
-                  Save
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th>Index</th>
-              <th>Author</th>
-              <th>Title</th>
-              <th className="img-button">
-                <img src={edit} alt="edit pencil" height="16" />
-              </th>
-              <th className="img-button">
-                <img src={check} alt="check" height="16" />
-              </th>
-              <th className="img-button">
-                <img src={del} alt="delete button" height="16" />
-              </th>
-            </tr>
-
-            {this.state.books.map(book => (
-              <tr>
-                <td>{book.index}</td>
-                <td>{book.author}</td>
-                <td>{book.title}</td>
-                <td>✏️</td>
-                <td>✔</td>
-                <td>❌</td>
+            <tbody>
+              <tr className="addingBooks">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td colSpan="3" className="searchTd">
+                  <input
+                    id="search"
+                    type="text"
+                    className="search"
+                    onChange={this.searchOnChange}
+                  />
+                  <label htmlFor="search" className="searchLabel">
+                    <img src={search} alt="search" height="16" />
+                  </label>
+                </td>
               </tr>
-            ))}
+
+              <tr className="addingBooks">
+                <td></td>
+                <td>
+                  <input
+                    type="text"
+                    placeholder="author"
+                    ref={this.authorRef}
+                  />
+                </td>
+                <td>
+                  <input type="text" placeholder="title" ref={this.titleRef} />
+                </td>
+                <td colSpan="3">
+                  <button id="add" type="submit">
+                    Save
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <th>Index</th>
+                <th>Author</th>
+                <th>Title</th>
+                <th className="img-button">
+                  <img src={edit} alt="edit pencil" height="16" />
+                </th>
+                <th className="img-button">
+                  <img src={check} alt="check" height="16" />
+                </th>
+                <th className="img-button">
+                  <img src={del} alt="delete button" height="16" />
+                </th>
+              </tr>
+
+              <BookList
+                books={this.state.books}
+                edit={this.state.edit}
+                onCheck={this.onCheck}
+                onClickEdit={this.onClickEdit}
+                onDelete={this.onDelete}
+                onChange={this.onChange}
+                filteredBooks={this.filteredBooks}
+                search={this.state.search}
+              />
+            </tbody>
           </table>
         </form>
       </div>

@@ -25,7 +25,16 @@ function createWindow() {
   );
   // if (isDev) {
   //     // Open the DevTools.
-  //     //BrowserWindow.addDevToolsExtension('<location to your react chrome extension>');
+  //BrowserWindow.addDevToolsExtension('<location to your react chrome extension>');
+
+  const path = require("path");
+  const os = require("os");
+  BrowserWindow.addDevToolsExtension(
+    path.join(
+      os.homedir(),
+      "/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.4.0_0/"
+    )
+  );
   //     mainWindow.webContents.openDevTools();
   // }
   mainWindow.on("closed", () => (mainWindow = null));
