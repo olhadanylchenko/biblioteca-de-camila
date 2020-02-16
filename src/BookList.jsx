@@ -27,7 +27,15 @@ class BookList extends React.Component {
         return bookWords.some(word => word.indexOf(searchWord) == 0);
       });
     });
-    console.log(filteredBooks);
+
+    if (this.props.sortBy !== undefined) {
+      filteredBooks.sort((bookA, bookB) => {
+        var x = bookA[this.props.sortBy].toLowerCase();
+        var y = bookB[this.props.sortBy].toLowerCase();
+        return x < y ? -1 : x > y ? 1 : 0;
+      });
+    }
+
     return (
       <>
         {filteredBooks.map((book, index) => (
