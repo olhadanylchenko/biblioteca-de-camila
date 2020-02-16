@@ -1,25 +1,5 @@
 {
-  "author": {
-    "name": "Olha Danylchenko",
-    "email": "danylchenkoolha@gmail.com",
-    "url": ""
-  },
-  "build": {
-    "appId": "com.db.olia",
-    "productName": "Biblioteca de Camila",
-    "copyright": "Copyright © 2019 ${author}",
-    "mac": {
-      "category": "public.app-category.utilities"
-    },
-    "files": [
-      "build/**/*",
-      "node_modules/**/*"
-    ],
-    "directories": {
-      "buildResources": "assets"
-    }
-  },
-  "name": "camila",
+  "name": "camila-2",
   "version": "0.1.0",
   "private": true,
   "homepage": ".",
