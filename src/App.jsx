@@ -102,27 +102,9 @@ class App extends React.Component {
     });
   };
 
-  handleSort = smth => {
-    const books = [...this.state.books];
-    books.sort(function(a, b) {
-      var x = a.author.toLowerCase();
-      var y = b.author.toLowerCase();
-      return x < y ? -1 : x > y ? 1 : 0;
-    });
+  handleSort = sortBy => {
     this.setState({
-      books
-    });
-  };
-
-  handleSortTitle = smth => {
-    const books = [...this.state.books];
-    books.sort(function(a, b) {
-      var x = a.title.toLowerCase();
-      var y = b.title.toLowerCase();
-      return x < y ? -1 : x > y ? 1 : 0;
-    });
-    this.setState({
-      books
+      sortBy
     });
   };
 
@@ -171,10 +153,18 @@ class App extends React.Component {
                 </td>
               </tr>
               <tr>
-                <th>Index</th>
                 <th>
                   <button
-                    onClick={() => this.handleSort(this.state.books)}
+                    onClick={() => this.handleSort("index")}
+                    type="button"
+                    className="th"
+                  >
+                    Index{" "}
+                  </button>
+                </th>
+                <th>
+                  <button
+                    onClick={() => this.handleSort("author")}
                     type="button"
                     className="th"
                   >
@@ -184,7 +174,7 @@ class App extends React.Component {
                 </th>
                 <th>
                   <button
-                    onClick={() => this.handleSortTitle(this.state.books)}
+                    onClick={() => this.handleSort("title")}
                     type="button"
                     className="th"
                   >
@@ -204,6 +194,7 @@ class App extends React.Component {
               </tr>
 
               <BookList
+                sortBy={this.state.sortBy}
                 books={this.state.books}
                 edit={this.state.edit}
                 onCheck={this.onCheck}
