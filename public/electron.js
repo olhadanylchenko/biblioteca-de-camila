@@ -2,6 +2,8 @@ const electron = require("electron");
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
+const os = require("os");
+
 const path = require("path");
 const isDev = require("electron-is-dev");
 
@@ -27,8 +29,6 @@ function createWindow() {
   //     // Open the DevTools.
   //BrowserWindow.addDevToolsExtension('<location to your react chrome extension>');
 
-  const path = require("path");
-  const os = require("os");
   BrowserWindow.addDevToolsExtension(
     path.join(
       os.homedir(),

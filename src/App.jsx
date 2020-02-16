@@ -102,6 +102,30 @@ class App extends React.Component {
     });
   };
 
+  handleSort = smth => {
+    const books = [...this.state.books];
+    books.sort(function(a, b) {
+      var x = a.author.toLowerCase();
+      var y = b.author.toLowerCase();
+      return x < y ? -1 : x > y ? 1 : 0;
+    });
+    this.setState({
+      books
+    });
+  };
+
+  handleSortTitle = smth => {
+    const books = [...this.state.books];
+    books.sort(function(a, b) {
+      var x = a.title.toLowerCase();
+      var y = b.title.toLowerCase();
+      return x < y ? -1 : x > y ? 1 : 0;
+    });
+    this.setState({
+      books
+    });
+  };
+
   render() {
     return (
       <div className="App">
@@ -148,8 +172,26 @@ class App extends React.Component {
               </tr>
               <tr>
                 <th>Index</th>
-                <th>Author</th>
-                <th>Title</th>
+                <th>
+                  <button
+                    onClick={() => this.handleSort(this.state.books)}
+                    type="button"
+                    className="th"
+                  >
+                    {" "}
+                    Author
+                  </button>
+                </th>
+                <th>
+                  <button
+                    onClick={() => this.handleSortTitle(this.state.books)}
+                    type="button"
+                    className="th"
+                  >
+                    {" "}
+                    Title
+                  </button>
+                </th>
                 <th className="img-button">
                   <img src={edit} alt="edit pencil" height="16" />
                 </th>
