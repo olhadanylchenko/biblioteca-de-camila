@@ -153,7 +153,15 @@ class App extends React.Component {
                 </td>
               </tr>
               <tr>
-                <th>Index</th>
+                <th>
+                  <button
+                    onClick={() => this.handleSort("index")}
+                    type="button"
+                    className="th"
+                  >
+                    Index{" "}
+                  </button>
+                </th>
                 <th>
                   <button
                     onClick={() => this.handleSort("author")}
