@@ -11,7 +11,9 @@ class App extends React.Component {
   state = {
     books: [],
     edit: -1,
-    search: ""
+    search: "",
+    sortBy: "index",
+    sortReverse: false
   };
   constructor(props) {
     super(props);
@@ -103,8 +105,11 @@ class App extends React.Component {
   };
 
   handleSort = sortBy => {
+    const sortReverse = sortBy === this.state.sortBy && !this.state.sortReverse;
+
     this.setState({
-      sortBy
+      sortBy,
+      sortReverse
     });
   };
 
@@ -203,6 +208,7 @@ class App extends React.Component {
                 onChange={this.onChange}
                 filteredBooks={this.filteredBooks}
                 search={this.state.search}
+                sortReverse={this.state.sortReverse}
               />
             </tbody>
           </table>
