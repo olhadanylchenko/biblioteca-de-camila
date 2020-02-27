@@ -12,7 +12,9 @@ class BookList extends React.Component {
     onClickEdit: PropTypes.func,
     onCheck: PropTypes.func,
     onDelete: PropTypes.func,
-    search: PropTypes.string
+    search: PropTypes.string,
+    sortBy: PropTypes.string,
+    sortReverse: PropTypes.bool
   };
 
   render() {
@@ -28,16 +30,19 @@ class BookList extends React.Component {
       });
     });
 
-    if (this.props.sortBy !== undefined && this.props.sortBy !== "index") {
+    if (this.props.sortBy === "index") {
+      filteredBooks.sort((index1, index2) => {
+        return index1 - index2;
+      });
+    } else {
       filteredBooks.sort((bookA, bookB) => {
         var x = bookA[this.props.sortBy].toLowerCase();
         var y = bookB[this.props.sortBy].toLowerCase();
         return x < y ? -1 : x > y ? 1 : 0;
       });
-    } else if (this.props.sortBy === "index") {
-      filteredBooks.sort((index1, index2) => {
-        return index1 - index2;
-      });
+    }
+    if (this.props.sortReverse) {
+      filteredBooks.reverse();
     }
 
     return (
