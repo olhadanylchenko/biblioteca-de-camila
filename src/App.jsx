@@ -6,6 +6,7 @@ import del from "./del.png";
 import check from "./check.png";
 import db from "localforage";
 import BookList from "./BookList";
+import Edit from "./Edit";
 
 class App extends React.Component {
   state = {
@@ -57,17 +58,10 @@ class App extends React.Component {
     db.setItem("books", books);
   };
 
-  onCheck = index => () => {
-    const book = {
-      ...this.state.books[index]
-    };
+  onCheck = id => () => {
+    const book = this.state.books.filter(book => book.id === id)[0];
     book.finished = book.finished ? false : true;
-    this.toggleBookFinished(index, book);
-  };
-
-  toggleBookFinished = (index, book) => {
     const books = [...this.state.books];
-    books[index] = book;
     this.setState({
       books
     });
@@ -118,7 +112,8 @@ class App extends React.Component {
       <div className="App">
         <header></header>
         <h1>Biblioteca de Camila</h1>
-
+        <button type="button">Books</button>
+        <button type="button">Movies</button>
         <form onSubmit={this.onSubmit} ref={this.formRef}>
           <table>
             <tbody>

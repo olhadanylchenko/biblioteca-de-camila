@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import edit from "./edit.png";
 import del from "./del.png";
 import check from "./check.png";
+import Edit from "./Edit";
 
 class BookList extends React.Component {
   static propTypes = {
@@ -17,8 +18,8 @@ class BookList extends React.Component {
     sortReverse: PropTypes.bool
   };
 
-  render() {
-    let filteredBooks = this.props.books.filter(book => {
+  filteredBooks = () => {
+    return this.props.books.filter(book => {
       const author = book.author.split(/,| /);
       const title = book.title.split(/,| /);
       const bookWords = [...author, ...title];
@@ -29,7 +30,10 @@ class BookList extends React.Component {
         return bookWords.some(word => word.indexOf(searchWord) == 0);
       });
     });
+  };
 
+  render() {
+    let filteredBooks = this.filteredBooks();
     if (this.props.sortBy === "index") {
       filteredBooks.sort((index1, index2) => {
         return index1 - index2;
@@ -51,26 +55,7 @@ class BookList extends React.Component {
           <tr key={index}>
             <td>{book.id}</td>
             {this.props.edit === index ? (
-              <>
-                <td>
-                  <input
-                    value={book.author}
-                    className="edit"
-                    name="author"
-                    onChange={this.props.onChange}
-                    className="editInput"
-                  ></input>
-                </td>
-                <td>
-                  <input
-                    value={book.title}
-                    className="edit"
-                    name="title"
-                    onChange={this.props.onChange}
-                    className="editInput"
-                  ></input>
-                </td>
-              </>
+              <Edit book={book} onChange={this.props.onChange} />
             ) : (
               <>
                 <td>{book.author}</td>
@@ -90,7 +75,7 @@ class BookList extends React.Component {
               <button
                 className="table-button"
                 type="button"
-                onClick={this.props.onCheck(index)}
+                onClick={this.props.onCheck(book.id)}
               >
                 {book.finished ? (
                   <img src={check} alt="check" height="16" />
