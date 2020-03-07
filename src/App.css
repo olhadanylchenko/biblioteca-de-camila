@@ -3,6 +3,7 @@
 @import url("https://fonts.googleapis.com/css?family=Nothing+You+Could+Do&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Homemade+Apple&display=swap");
 @import url("https://fonts.googleapis.com/css?family=Roboto:300i,400&display=swap");
+
 body {
   background-color: #181b25;
   font-family: "Work Sans", Arial, Helvetica, sans-serif;
@@ -13,22 +14,41 @@ h1 {
   font-weight: 300;
   text-align: center;
   font-size: 3rem;
-  margin-bottom: 0.2rem;
+  margin-bottom: 2.2rem;
 }
 header {
-  /* background-color: #; */
   width: 100%;
   height: 37px;
   -webkit-app-region: drag;
 }
 
-table {
-  /* display: grid;
-  grid-template-columns: minmax(150px, 100%) minmax(150px, 1.33fr) minmax(
-      150px,
-      1.33fr
-    ) 2rem 2rem 2rem; */
+.tabs {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  top: -2.2rem;
+  left: -0.15rem;
+}
+
+.tab {
+  color: #acb3c8;
+  background-color: #292e3c;
   font-size: 0.9rem;
+  border: 1px solid #181b25;
+  border-bottom: none;
+  padding: 0.6em 8.61rem;
+}
+
+.tab:active,
+.tab:focus,
+.tab:target {
+  background-color: #acb3c8;
+  color: #292e3c;
+  outline: 0;
+}
+
+table {
+  position: relative;
   line-height: 2rem;
   width: 80%;
   margin: auto;
@@ -38,11 +58,9 @@ table {
   border-spacing: 2px;
   border-collapse: separate;
 }
-th {
-  text-transform: uppercase;
-}
 
 .th {
+  text-transform: uppercase;
   font-size: 100%;
   font-family: inherit;
   border: 0;
