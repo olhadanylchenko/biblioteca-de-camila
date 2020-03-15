@@ -50,57 +50,51 @@ class BookList extends React.Component {
     }
 
     return (
-      <>
+      <ul>
         {filteredBooks.map((book, index) => (
-          <tr key={index}>
-            <td>{book.id}</td>
+          <>
+            {book.id}
             {this.props.edit === index ? (
               <Edit book={book} onChange={this.props.onChange} />
             ) : (
               <>
-                <td>{book.author}</td>
-                <td>{book.title}</td>
+                {book.author}
+                {book.title}
               </>
             )}
-            <td>
-              <button
-                className="table-button"
-                type="button"
-                onClick={this.props.onClickEdit(index)}
-              >
-                <img src={edit} alt="edit pencil" height="16" />
-              </button>
-            </td>
-            <td>
-              <button
-                className="table-button"
-                type="button"
-                onClick={this.props.onCheck(book.id)}
-              >
-                {book.finished ? (
-                  <img src={check} alt="check" height="16" />
-                ) : (
-                  <img
-                    className="check-hide"
-                    src={check}
-                    alt="check"
-                    height="16"
-                  />
-                )}
-              </button>
-            </td>
-            <td>
-              <button
-                className="table-button"
-                type="button"
-                onClick={this.props.onDelete(book.id)}
-              >
-                <img src={del} alt="delete button" height="16" />
-              </button>
-            </td>
-          </tr>
+            <button
+              className="table-button"
+              type="button"
+              onClick={this.props.onClickEdit(index)}
+            >
+              <img src={edit} alt="edit pencil" height="16" />
+            </button>
+            <button
+              className="table-button"
+              type="button"
+              onClick={this.props.onCheck(book.id)}
+            >
+              {book.finished ? (
+                <img src={check} alt="check" height="16" />
+              ) : (
+                <img
+                  className="check-hide"
+                  src={check}
+                  alt="check"
+                  height="16"
+                />
+              )}
+            </button>
+            <button
+              className="table-button"
+              type="button"
+              onClick={this.props.onDelete(book.id)}
+            >
+              <img src={del} alt="delete button" height="16" />
+            </button>
+          </>
         ))}
-      </>
+      </ul>
     );
   }
 }

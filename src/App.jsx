@@ -1,11 +1,12 @@
 import React from "react";
 import "./App.css";
-import edit from "./edit.png";
-import search from "./search.png";
-import del from "./del.png";
-import check from "./check.png";
 import db from "localforage";
 import BookList from "./components/BookList";
+import DragBar from "./components/DragBar";
+import Tabs from "./components/Tabs";
+import Search from "./components/Search";
+import FormToAddAThing from "./components/FormToAddAThing";
+import SortingHeaders from "./components/SortingHeaders";
 
 class App extends React.Component {
   state = {
@@ -36,17 +37,16 @@ class App extends React.Component {
     });
   }
 
-  directorRef = React.createRef();
-  authorRef = React.createRef();
+  authorOrDirectorRef = React.createRef();
   titleRef = React.createRef();
-  // formRef = React.createRef();
+  formRef = React.createRef();
 
   onSubmit = e => {
-    // e.preventDefault();
+    e.preventDefault();
     const books = [...this.state.books];
     const book = {
       id: books[books.length - 1] ? books[books.length - 1].id + 1 : 1,
-      author: this.authorRef.current.value,
+      author: this.authorOrDirectorRef.current.value,
       title: this.titleRef.current.value,
       finished: false
     };
@@ -55,9 +55,9 @@ class App extends React.Component {
       books
     });
     db.setItem("books", books);
-    this.directorRef.current.value = "";
-    this.authorRef.current.value = "";
-    this.titleRef.current.value = "";
+    this.formRef.current.reset();
+    // focusing on the first input again after you saved a book
+    this.authorOrDirectorRef.current.focus();
   };
 
   onDelete = id => () => {
@@ -128,143 +128,34 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <header></header>
+        <DragBar />
         <h1>Biblioteca de Camila</h1>
-        <table>
-          {/* <div class="tabs">
-            <button
-              onClick={() => this.toggleTab("books")}
-              type="button"
-              class="tab"
-            >
-              Books
-            </button>
-            <button
-              onClick={() => this.toggleTab("movies")}
-              type="button"
-              class="tab"
-            >
-              Movies
-            </button>
-          </div> */}
-          <tbody>
-            <tr className="addingBooks">
-              <td></td>
-              <td></td>
-              <td></td>
-              <td colSpan="3" className="searchTd">
-                <input
-                  id="search"
-                  type="text"
-                  className="search"
-                  onChange={this.searchOnChange}
-                />
-                <label htmlFor="search" className="searchLabel">
-                  <img src={search} alt="search" height="16" />
-                </label>
-              </td>
-            </tr>
+        <Tabs toggleTab={this.toggleTab} />
 
-            <tr className="addingBooks">
-              <td></td>
-              <td>
-                {this.state.list === "books" ? (
-                  <input
-                    type="text"
-                    placeholder="author"
-                    ref={this.authorRef}
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    placeholder="director"
-                    ref={this.authorRef}
-                  />
-                )}
-              </td>
-              <td>
-                <input type="text" placeholder="title" ref={this.titleRef} />
-              </td>
-              <td colSpan="3">
-                <button
-                  id="add"
-                  type="submit"
-                  onClick={() => {
-                    this.onSubmit();
-                  }}
-                >
-                  {" "}
-                  Save
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <button
-                  onClick={() => this.handleSort("index")}
-                  type="button"
-                  className="th"
-                >
-                  Index{" "}
-                </button>
-              </th>
-              <th>
-                {this.state.list === "books" ? (
-                  <button
-                    onClick={() => this.handleSort("author")}
-                    type="button"
-                    className="th"
-                  >
-                    {" "}
-                    Author
-                  </button>
-                ) : (
-                  <button
-                    onClick={() => this.handleSort("author")}
-                    type="button"
-                    className="th"
-                  >
-                    {" "}
-                    Director
-                  </button>
-                )}
-              </th>
-              <th>
-                <button
-                  onClick={() => this.handleSort("title")}
-                  type="button"
-                  className="th"
-                >
-                  {" "}
-                  Title
-                </button>
-              </th>
-              <th className="img-button">
-                <img src={edit} alt="edit pencil" height="16" />
-              </th>
-              <th className="img-button">
-                <img src={check} alt="check" height="16" />
-              </th>
-              <th className="img-button">
-                <img src={del} alt="delete button" height="16" />
-              </th>
-            </tr>
+        <Search searchOnChange={this.searchOnChange} />
 
-            <BookList
-              sortBy={this.state.sortBy}
-              books={this.state.books}
-              edit={this.state.edit}
-              onCheck={this.onCheck}
-              onClickEdit={this.onClickEdit}
-              onDelete={this.onDelete}
-              onChange={this.onChange}
-              filteredBooks={this.filteredBooks}
-              search={this.state.search}
-              sortReverse={this.state.sortReverse}
-            />
-          </tbody>
-        </table>
-        {/* </form> */}
+        <FormToAddAThing
+          formRef={this.formRef}
+          list={this.list}
+          onSubmit={this.onSubmit}
+          authorOrDirectorRef={this.authorOrDirectorRef}
+          titleRef={this.titleRef}
+        />
+
+        <SortingHeaders handleSort={this.handleSort} list={this.state.list} />
+
+        <BookList
+          sortBy={this.state.sortBy}
+          books={this.state.books}
+          edit={this.state.edit}
+          onCheck={this.onCheck}
+          onClickEdit={this.onClickEdit}
+          onDelete={this.onDelete}
+          onChange={this.onChange}
+          filteredBooks={this.filteredBooks}
+          search={this.state.search}
+          sortReverse={this.state.sortReverse}
+        />
       </div>
     );
   }
