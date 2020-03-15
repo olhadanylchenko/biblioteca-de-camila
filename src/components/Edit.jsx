@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import edit from "./edit.png";
 
 class Edit extends React.Component {
   static propTypes = {

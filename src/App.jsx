@@ -5,7 +5,7 @@ import search from "./search.png";
 import del from "./del.png";
 import check from "./check.png";
 import db from "localforage";
-import BookList from "./BookList";
+import BookList from "./components/BookList";
 
 class App extends React.Component {
   state = {
