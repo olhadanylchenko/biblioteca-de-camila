@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import edit from "./edit.png";
-import del from "./del.png";
-import check from "./check.png";
+import edit from "../edit.png";
+import del from "../del.png";
+import check from "../check.png";
 import Edit from "./Edit";
 
 class BookList extends React.Component {

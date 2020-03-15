@@ -5,7 +5,7 @@ import search from "./search.png";
 import del from "./del.png";
 import check from "./check.png";
 import db from "localforage";
-import BookList from "./BookList";
+import BookList from "./components/BookList";
 
 class App extends React.Component {
   state = {
@@ -42,7 +42,7 @@ class App extends React.Component {
   // formRef = React.createRef();
 
   onSubmit = e => {
-    // e.preventDefault();
+    e.preventDefault();
     const books = [...this.state.books];
     const book = {
       id: books[books.length - 1] ? books[books.length - 1].id + 1 : 1,
@@ -55,10 +55,12 @@ class App extends React.Component {
       books
     });
     db.setItem("books", books);
-    this.directorRef.current.value = "";
-    this.authorRef.current.value = "";
-    this.titleRef.current.value = "";
+    this.directorRef.current && (this.directorRef.current.value = "");
+    this.titleRef.current && (this.titleRef.current.value = "");
+    this.authorRef.current && (this.authorRef.current.value = "");
   };
+
+  handleKeyPress = event => event.key === "Enter" && this.onSubmit();
 
   onDelete = id => () => {
     const books = this.state.books.filter(book => book.id !== id);
@@ -130,141 +132,127 @@ class App extends React.Component {
       <div className="App">
         <header></header>
         <h1>Biblioteca de Camila</h1>
-        <table>
-          <div class="tabs">
+        <div className="some-container">
+          <form onSubmit={this.onSubmit}>
+            <div>
+              {this.state.list === "books" ? (
+                <input type="text" placeholder="author" ref={this.authorRef} />
+              ) : (
+                <input
+                  type="text"
+                  placeholder="director"
+                  ref={this.authorRef}
+                />
+              )}
+              <input type="text" placeholder="title" ref={this.titleRef} />
+              <button id="add" type="submit" onClick={this.onSubmit}>
+                {" "}
+                Save
+              </button>
+            </div>
+          </form>
+          <div className="tabs">
             <button
               onClick={() => this.toggleTab("books")}
               type="button"
-              class="tab"
+              className="tab"
             >
               Books
             </button>
             <button
               onClick={() => this.toggleTab("movies")}
               type="button"
-              class="tab"
+              className="tab"
             >
               Movies
             </button>
           </div>
-          <tbody>
-            <tr className="addingBooks">
-              <td></td>
-              <td></td>
-              <td></td>
-              <td colSpan="3" className="searchTd">
-                <input
-                  id="search"
-                  type="text"
-                  className="search"
-                  onChange={this.searchOnChange}
-                />
-                <label htmlFor="search" className="searchLabel">
-                  <img src={search} alt="search" height="16" />
-                </label>
-              </td>
-            </tr>
-
-            <tr className="addingBooks">
-              <td></td>
-              <td>
-                {this.state.list === "books" ? (
+          <table>
+            <tbody>
+              <tr className="addingBooks">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td colSpan="3" className="searchTd">
                   <input
+                    id="search"
                     type="text"
-                    placeholder="author"
-                    ref={this.authorRef}
+                    className="search"
+                    onChange={this.searchOnChange}
                   />
-                ) : (
-                  <input
-                    type="text"
-                    placeholder="director"
-                    ref={this.authorRef}
-                  />
-                )}
-              </td>
-              <td>
-                <input type="text" placeholder="title" ref={this.titleRef} />
-              </td>
-              <td colSpan="3">
-                <button
-                  id="add"
-                  type="submit"
-                  onClick={() => {
-                    this.onSubmit();
-                  }}
-                >
-                  {" "}
-                  Save
-                </button>
-              </td>
-            </tr>
-            <tr>
-              <th>
-                <button
-                  onClick={() => this.handleSort("index")}
-                  type="button"
-                  className="th"
-                >
-                  Index{" "}
-                </button>
-              </th>
-              <th>
-                {this.state.list === "books" ? (
+                  <label htmlFor="search" className="searchLabel">
+                    <img src={search} alt="search" height="16" />
+                  </label>
+                </td>
+              </tr>
+              <tr className="addingBooks"></tr>
+              <tr>
+                <th>
                   <button
-                    onClick={() => this.handleSort("author")}
+                    onClick={() => this.handleSort("index")}
+                    type="button"
+                    className="th"
+                  >
+                    Index{" "}
+                  </button>
+                </th>
+                <th>
+                  {this.state.list === "books" ? (
+                    <button
+                      onClick={() => this.handleSort("author")}
+                      type="button"
+                      className="th"
+                    >
+                      {" "}
+                      Author
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => this.handleSort("author")}
+                      type="button"
+                      className="th"
+                    >
+                      {" "}
+                      Director
+                    </button>
+                  )}
+                </th>
+                <th>
+                  <button
+                    onClick={() => this.handleSort("title")}
                     type="button"
                     className="th"
                   >
                     {" "}
-                    Author
+                    Title
                   </button>
-                ) : (
-                  <button
-                    onClick={() => this.handleSort("author")}
-                    type="button"
-                    className="th"
-                  >
-                    {" "}
-                    Director
-                  </button>
-                )}
-              </th>
-              <th>
-                <button
-                  onClick={() => this.handleSort("title")}
-                  type="button"
-                  className="th"
-                >
-                  {" "}
-                  Title
-                </button>
-              </th>
-              <th className="img-button">
-                <img src={edit} alt="edit pencil" height="16" />
-              </th>
-              <th className="img-button">
-                <img src={check} alt="check" height="16" />
-              </th>
-              <th className="img-button">
-                <img src={del} alt="delete button" height="16" />
-              </th>
-            </tr>
+                </th>
+                <th className="img-button">
+                  <img src={edit} alt="edit pencil" height="16" />
+                </th>
+                <th className="img-button">
+                  <img src={check} alt="check" height="16" />
+                </th>
+                <th className="img-button">
+                  <img src={del} alt="delete button" height="16" />
+                </th>
+              </tr>
 
-            <BookList
-              sortBy={this.state.sortBy}
-              books={this.state.books}
-              edit={this.state.edit}
-              onCheck={this.onCheck}
-              onClickEdit={this.onClickEdit}
-              onDelete={this.onDelete}
-              onChange={this.onChange}
-              filteredBooks={this.filteredBooks}
-              search={this.state.search}
-              sortReverse={this.state.sortReverse}
-            />
-          </tbody>
-        </table>
-        {/* </form> */}
+              <BookList
+                sortBy={this.state.sortBy}
+                books={this.state.books}
+                edit={this.state.edit}
+                onCheck={this.onCheck}
+                onClickEdit={this.onClickEdit}
+                onDelete={this.onDelete}
+                onChange={this.onChange}
+                filteredBooks={this.filteredBooks}
+                search={this.state.search}
+                sortReverse={this.state.sortReverse}
+              />
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
