@@ -131,7 +131,7 @@ class App extends React.Component {
         <header></header>
         <h1>Biblioteca de Camila</h1>
         <table>
-          <div class="tabs">
+          {/* <div class="tabs">
             <button
               onClick={() => this.toggleTab("books")}
               type="button"
@@ -146,7 +146,7 @@ class App extends React.Component {
             >
               Movies
             </button>
-          </div>
+          </div> */}
           <tbody>
             <tr className="addingBooks">
               <td></td>
