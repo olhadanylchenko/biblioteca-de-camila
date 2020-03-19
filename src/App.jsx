@@ -1,12 +1,9 @@
 import React from "react";
 import "./App.css";
 import db from "localforage";
-import BookList from "./components/BookList";
+import List from "./components/List";
 import DragBar from "./components/DragBar";
 import Tabs from "./components/Tabs";
-import Search from "./components/Search";
-import FormToAddAThing from "./components/FormToAddAThing";
-import SortingHeaders from "./components/SortingHeaders";
 
 class App extends React.Component {
   state = {
@@ -14,7 +11,6 @@ class App extends React.Component {
     books: [],
     movies: [],
     edit: -1,
-    search: "",
     sortBy: "index",
     sortReverse: false
   };
@@ -43,40 +39,75 @@ class App extends React.Component {
 
   onSubmit = e => {
     e.preventDefault();
-    const books = [...this.state.books];
-    const book = {
-      id: books[books.length - 1] ? books[books.length - 1].id + 1 : 1,
-      author: this.authorOrDirectorRef.current.value,
-      title: this.titleRef.current.value,
-      finished: false
-    };
-    books.push(book);
-    this.setState({
-      books
-    });
-    db.setItem("books", books);
+    if (this.state.list === "books") {
+      const books = [...this.state.books];
+      const book = {
+        id: books[books.length - 1] ? books[books.length - 1].id + 1 : 1,
+        author: this.authorOrDirectorRef.current.value,
+        title: this.titleRef.current.value,
+        finished: false
+      };
+      books.push(book);
+      this.setState({
+        books
+      });
+      db.setItem("books", books);
+    } else {
+      const movies = [...this.state.movies];
+      const movie = {
+        id: movies[movies.length - 1] ? movies[movies.length - 1].id + 1 : 1,
+        director: this.authorOrDirectorRef.current.value,
+        title: this.titleRef.current.value,
+        finished: false
+      };
+      movies.push(movie);
+      this.setState({
+        movies
+      });
+      db.setItem("movies", movies);
+    }
+
     this.formRef.current.reset();
     // focusing on the first input again after you saved a book
     this.authorOrDirectorRef.current.focus();
   };
 
   onDelete = id => () => {
-    const books = this.state.books.filter(book => book.id !== id);
-    this.setState({
-      books,
-      edit: -1
-    });
-    db.setItem("books", books);
+    if (this.state.list === "books") {
+      const books = this.state.books.filter(book => book.id !== id);
+      this.setState({
+        books,
+        edit: -1
+      });
+      db.setItem("books", books);
+    } else {
+      const movies = this.state.movies.filter(movie => movie.id !== id);
+      this.setState({
+        movies,
+        edit: -1
+      });
+      db.setItem("movies", movies);
+    }
   };
 
   onCheck = id => () => {
-    const book = this.state.books.filter(book => book.id === id)[0];
-    book.finished = book.finished ? false : true;
-    const books = [...this.state.books];
-    this.setState({
-      books
-    });
-    db.setItem("books", books);
+    if (this.state.list === "books") {
+      const book = this.state.books.filter(book => book.id === id)[0];
+      book.finished = book.finished ? false : true;
+      const books = [...this.state.books];
+      this.setState({
+        books
+      });
+      db.setItem("books", books);
+    } else {
+      const movie = this.state.movies.filter(movie => movie.id === id)[0];
+      movie.finished = movie.finished ? false : true;
+      const movies = [...this.state.movies];
+      this.setState({
+        movies
+      });
+      db.setItem("movies", movies);
+    }
   };
 
   onClickEdit = index => event => {
@@ -92,21 +123,27 @@ class App extends React.Component {
   };
 
   onChange = e => {
-    const books = [...this.state.books];
-    const book = {
-      ...this.state.books[this.state.edit],
-      [e.currentTarget.name]: e.currentTarget.value
-    };
-    books.splice(this.state.edit, 1, book);
-    this.setState({
-      books
-    });
-  };
-
-  searchOnChange = e => {
-    this.setState({
-      search: e.target.value
-    });
+    if (this.state.list === "books") {
+      const books = [...this.state.books];
+      const book = {
+        ...this.state.books[this.state.edit],
+        [e.currentTarget.name]: e.currentTarget.value
+      };
+      books.splice(this.state.edit, 1, book);
+      this.setState({
+        books
+      });
+    } else {
+      const movies = [...this.state.movies];
+      const movie = {
+        ...this.state.movies[this.state.edit],
+        [e.currentTarget.name]: e.currentTarget.value
+      };
+      movies.splice(this.state.edit, 1, movie);
+      this.setState({
+        movies
+      });
+    }
   };
 
   handleSort = sortBy => {
@@ -130,30 +167,23 @@ class App extends React.Component {
       <div className="App">
         <DragBar />
         <h1>Biblioteca de Camila</h1>
-        <Tabs toggleTab={this.toggleTab} />
+        <Tabs toggleTab={this.toggleTab} list={this.state.list} />
 
-        <Search searchOnChange={this.searchOnChange} />
-
-        <FormToAddAThing
-          formRef={this.formRef}
-          list={this.list}
+        <List
+          toggleTab={this.toggleTab}
           onSubmit={this.onSubmit}
-          authorOrDirectorRef={this.authorOrDirectorRef}
-          titleRef={this.titleRef}
-        />
-
-        <SortingHeaders handleSort={this.handleSort} list={this.state.list} />
-
-        <BookList
-          sortBy={this.state.sortBy}
-          books={this.state.books}
-          edit={this.state.edit}
+          handleSort={this.handleSort}
           onCheck={this.onCheck}
           onClickEdit={this.onClickEdit}
           onDelete={this.onDelete}
           onChange={this.onChange}
-          filteredBooks={this.filteredBooks}
-          search={this.state.search}
+          formRef={this.formRef}
+          authorOrDirectorRef={this.authorOrDirectorRef}
+          titleRef={this.titleRef}
+          list={this.state.list}
+          sortBy={this.state.sortBy}
+          books={this.state[this.state.list]}
+          edit={this.state.edit}
           sortReverse={this.state.sortReverse}
         />
       </div>

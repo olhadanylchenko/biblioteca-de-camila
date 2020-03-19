@@ -4,7 +4,7 @@ import del from "../del.png";
 import check from "../check.png";
 
 export default ({ handleSort, list }) => (
-  <header className="table-header">
+  <header className="th">
     <button
       ariaLabel="sort by index"
       onClick={() => handleSort("index")}
@@ -29,11 +29,11 @@ export default ({ handleSort, list }) => (
     >
       Title
     </button>
-
+    {/* 
     <img src={edit} alt="edit pencil" height="16" />
 
     <img src={check} alt="check" height="16" />
 
-    <img src={del} alt="delete button" height="16" />
+    <img src={del} alt="delete button" height="16" /> */}
   </header>
 );

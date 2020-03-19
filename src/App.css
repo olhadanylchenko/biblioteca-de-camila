@@ -16,16 +16,23 @@ h1 {
   font-size: 3rem;
   margin-bottom: 2.2rem;
 }
-header {
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+header.drag {
   width: 100%;
   height: 37px;
   -webkit-app-region: drag;
 }
 
 .tabs {
+  margin: 0;
   display: flex;
+  justify-content: center;
   flex-direction: row;
-  position: absolute;
   top: -2.2rem;
   left: -0.15rem;
 }
@@ -36,30 +43,29 @@ header {
   font-size: 0.9rem;
   border: 1px solid #181b25;
   border-bottom: none;
-  padding: 0.6em 8.61rem;
+  padding: 0.6em 9.9rem;
 }
 
-.tab:active,
-.tab:focus,
-.tab:target {
+.tab.active {
   background-color: #acb3c8;
   color: #292e3c;
   outline: 0;
 }
 
-table {
+.table {
   position: relative;
   line-height: 2rem;
   width: 80%;
+  max-width: 1024px;
   margin: auto;
   margin-bottom: 5rem;
   padding: 2rem;
   border: 1px solid #292e3c;
-  border-spacing: 2px;
-  border-collapse: separate;
 }
 
 .th {
+  display: grid;
+  grid-template-columns: 5rem 25rem 5rem 2rem 2rem 2rem;
   text-transform: uppercase;
   font-size: 100%;
   font-family: inherit;
@@ -74,25 +80,29 @@ table {
   outline-offset: 2px;
 }
 
-td {
+.table-row {
+  width: 100%;
+  display: grid;
+  grid-gap: 1px;
+  grid-template-columns: 5rem 1fr 1fr 2rem 2rem 2rem;
   background-color: #292e3c;
   text-align: center;
-
-  /* padding-bottom: 0; */
 }
 
-.searchTd {
+.search {
   position: relative;
   height: 30.59px;
 }
 
 .searchInput {
+  position: relative;
+  height: 30.59px;
   width: 130px;
   box-sizing: border-box;
   border-radius: 4px;
   font-size: 16px;
   /* background-image: url("search.png"); */
-
+  border: none;
   padding: 12px 20px 12px 40px;
   transition: width 0.4s ease-in-out;
   position: absolute;

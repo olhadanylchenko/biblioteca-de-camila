@@ -1,3 +1,3 @@
 import React from "react";
 
-export default () => <header />;
+export default () => <header className="drag" />;

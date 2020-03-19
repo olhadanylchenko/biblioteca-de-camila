@@ -1,8 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Search from "./Search";
+import FormToAddAThing from "./FormToAddAThing";
+import SortingHeaders from "./SortingHeaders";
 import BookOrMovie from "./BookOrMovie";
 
-class BookList extends React.Component {
+class List extends React.Component {
+  state = { search: "" };
   static propTypes = {
     books: PropTypes.array,
     edit: PropTypes.number,
@@ -10,9 +14,14 @@ class BookList extends React.Component {
     onClickEdit: PropTypes.func,
     onCheck: PropTypes.func,
     onDelete: PropTypes.func,
-    search: PropTypes.string,
     sortBy: PropTypes.string,
     sortReverse: PropTypes.bool
+  };
+
+  searchOnChange = e => {
+    this.setState({
+      search: e.target.value
+    });
   };
 
   filteredBooks = () => {
@@ -20,7 +29,7 @@ class BookList extends React.Component {
       const author = book.author.split(/,| /);
       const title = book.title.split(/,| /);
       const bookWords = [...author, ...title];
-      const search = this.props.search.split(/,| /);
+      const search = this.state.search.split(/,| /);
       // every word in the search matches some words in the bookWords
 
       return search.every(searchWord => {
@@ -47,7 +56,21 @@ class BookList extends React.Component {
     }
 
     return (
-      <ul>
+      <ul className="table">
+        <Search searchOnChange={this.searchOnChange} />
+
+        <FormToAddAThing
+          formRef={this.props.formRef}
+          list={this.props.list}
+          onSubmit={this.props.onSubmit}
+          authorOrDirectorRef={this.props.authorOrDirectorRef}
+          titleRef={this.props.titleRef}
+        />
+        <SortingHeaders
+          handleSort={this.props.handleSort}
+          list={this.props.list}
+        />
+
         {filteredBooks.map((book, index) => (
           <BookOrMovie
             beingEdited={this.props.edit}
@@ -65,4 +88,4 @@ class BookList extends React.Component {
   }
 }
 
-export default BookList;
+export default List;

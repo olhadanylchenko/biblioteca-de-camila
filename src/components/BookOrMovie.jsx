@@ -13,7 +13,7 @@ const BookOrMovie = ({
   index,
   beingEdited
 }) => (
-  <li key={book.id}>
+  <li className="table-row" key={book.id}>
     <div className="content">{book.id}</div>
     {beingEdited === index ? (
       <Edit book={book} onChange={onChange} />
