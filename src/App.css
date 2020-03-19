@@ -86,7 +86,7 @@ td {
   height: 30.59px;
 }
 
-.search {
+.searchInput {
   width: 130px;
   box-sizing: border-box;
   border-radius: 4px;
@@ -100,7 +100,7 @@ td {
   right: 0;
 }
 
-.search:focus {
+.searchInput:focus {
   width: 20rem;
 }
 

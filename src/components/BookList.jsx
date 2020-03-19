@@ -1,9 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import edit from "../edit.png";
-import del from "../del.png";
-import check from "../check.png";
-import Edit from "./Edit";
+import BookOrMovie from "./BookOrMovie";
 
 class BookList extends React.Component {
   static propTypes = {
@@ -52,47 +49,16 @@ class BookList extends React.Component {
     return (
       <ul>
         {filteredBooks.map((book, index) => (
-          <>
-            {book.id}
-            {this.props.edit === index ? (
-              <Edit book={book} onChange={this.props.onChange} />
-            ) : (
-              <>
-                {book.author}
-                {book.title}
-              </>
-            )}
-            <button
-              className="table-button"
-              type="button"
-              onClick={this.props.onClickEdit(index)}
-            >
-              <img src={edit} alt="edit pencil" height="16" />
-            </button>
-            <button
-              className="table-button"
-              type="button"
-              onClick={this.props.onCheck(book.id)}
-            >
-              {book.finished ? (
-                <img src={check} alt="check" height="16" />
-              ) : (
-                <img
-                  className="check-hide"
-                  src={check}
-                  alt="check"
-                  height="16"
-                />
-              )}
-            </button>
-            <button
-              className="table-button"
-              type="button"
-              onClick={this.props.onDelete(book.id)}
-            >
-              <img src={del} alt="delete button" height="16" />
-            </button>
-          </>
+          <BookOrMovie
+            beingEdited={this.props.edit}
+            key={book.id}
+            index={index}
+            book={book}
+            onChange={this.props.onChange}
+            onClickEdit={this.props.onClickEdit}
+            onCheck={this.props.onCheck}
+            onDelete={this.props.onDelete}
+          />
         ))}
       </ul>
     );

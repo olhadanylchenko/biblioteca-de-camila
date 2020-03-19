@@ -11,22 +11,18 @@ class Edit extends React.Component {
   render() {
     return (
       <>
-        <td>
-          <input
-            value={this.props.book.author}
-            className="edit editInput"
-            name="author"
-            onChange={this.props.onChange}
-          ></input>
-        </td>
-        <td>
-          <input
-            value={this.props.book.title}
-            className="edit editInput"
-            name="title"
-            onChange={this.props.onChange}
-          ></input>
-        </td>
+        <input
+          value={this.props.book.author}
+          className="edit editInput"
+          name="author"
+          onChange={this.props.onChange}
+        />
+        <input
+          value={this.props.book.title}
+          className="edit editInput"
+          name="title"
+          onChange={this.props.onChange}
+        />
       </>
     );
   }
