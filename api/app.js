@@ -6,6 +6,7 @@ const errorHandler = require("./middleware/error-handler");
 const initialize = require("./init");
 
 const users = require("./routes/auth");
+const books = require("./routes/books");
 
 const app = initialize();
 
@@ -16,7 +17,8 @@ app.use(jwt());
 app.use(errorHandler);
 
 // api routes
-app.use("/api/users", users);
+app.use("/users", users);
+app.use("/books", books);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
