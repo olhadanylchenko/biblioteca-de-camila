@@ -2,7 +2,10 @@ const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const bookSchema = new Schema({
-  owner: {},
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
   author: {
     type: String,
     required: true,
