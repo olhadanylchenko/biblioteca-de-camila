@@ -24,8 +24,8 @@ async function authenticate(req, res, next) {
 
 async function register(req, res, next) {
   try {
-    const user = await userService.create(req.body);
-    res.json(user);
+    await userService.create(req.body);
+    await authenticate(req, res, next);
   } catch (err) {
     console.log(err);
     if (err.status) {
