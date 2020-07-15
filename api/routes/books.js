@@ -7,39 +7,29 @@ const Book = require("../models/Book");
 router.post("/", async (req, res) => {
   try {
     const { author, title, read } = req.body;
+    const owner = req.user._id;
     const book = await Book.create({
+      owner,
       author,
       title,
       read,
     });
-    console.log("made an book");
     res.status(200).json(book);
   } catch (err) {
     res.status(500).json(err);
   }
 });
 
-// router.get("/", async (req, res) => {
-//   try {
-//     const event = await Event.find().populate("author").populate("attendees");
-//     res.status(200).json(event);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
-
-// router.get("/mine", async (req, res) => {
-//   try {
-//     const event = await Event.find({
-//       $or: [{ attendees: req.user._id }, { author: req.user._id }],
-//     })
-//       .populate("author")
-//       .populate("attendees");
-//     res.status(200).json(event);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// });
+router.get("/", async (req, res) => {
+  try {
+    const book = await Book.find({
+      owner: req.user._id,
+    });
+    res.status(200).json(book);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 // router.get("/:id", async (req, res) => {
 //   try {
@@ -60,7 +50,7 @@ router.put("/:id", async (req, res) => {
       { author, title, read },
       { new: true }
     );
-    res.status(200).json(event);
+    res.status(200).json(book);
   } catch (err) {
     json(err);
   }
