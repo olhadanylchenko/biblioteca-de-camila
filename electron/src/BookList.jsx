@@ -15,19 +15,19 @@ class BookList extends React.Component {
     onDelete: PropTypes.func,
     search: PropTypes.string,
     sortBy: PropTypes.string,
-    sortReverse: PropTypes.bool
+    sortReverse: PropTypes.bool,
   };
 
   filteredBooks = () => {
-    return this.props.books.filter(book => {
+    return this.props.books.filter((book) => {
       const author = book.author.split(/,| /);
       const title = book.title.split(/,| /);
       const bookWords = [...author, ...title];
       const search = this.props.search.split(/,| /);
       // every word in the search matches some words in the bookWords
 
-      return search.every(searchWord => {
-        return bookWords.some(word => word.indexOf(searchWord) == 0);
+      return search.every((searchWord) => {
+        return bookWords.some((word) => word.indexOf(searchWord) === 0);
       });
     });
   };

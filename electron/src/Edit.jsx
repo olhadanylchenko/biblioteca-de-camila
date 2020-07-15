@@ -1,12 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import edit from "./edit.png";
 
 class Edit extends React.Component {
   static propTypes = {
     edit: PropTypes.number,
     onChange: PropTypes.func,
-    onClickEdit: PropTypes.func
+    onClickEdit: PropTypes.func,
   };
 
   render() {

@@ -7,6 +7,7 @@ module.exports = {
   authenticate,
   create,
   update,
+  getById,
   delete: _delete,
 };
 
@@ -25,6 +26,10 @@ async function authenticate({ email, password }) {
       token,
     };
   }
+}
+
+async function getById(id) {
+  return await User.findById(id);
 }
 
 async function create(userParam) {
