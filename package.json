@@ -1,0 +1,19 @@
+{
+  "name": "biblioteca",
+  "version": "1.0.0",
+  "description": "This is an app inspired by my friend Camila's wish to track her books and movies. You can install the Beta version from the Releases page (macOS only for now).",
+  "main": "index.js",
+  "scripts": {
+    "start": "cd api && npm install && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/olhadanylchenko/biblioteca.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/olhadanylchenko/biblioteca/issues"
+  },
+  "homepage": "https://github.com/olhadanylchenko/biblioteca#readme"
+}
