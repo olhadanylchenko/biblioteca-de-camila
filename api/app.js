@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 });
 
 // start server
-const port = process.env.NODE_ENV === "production" ? 80 : 5555;
+const port = process.env.PORT || 5555;
 app.listen(port, function () {
   console.log("Server listening on port " + port);
 });
