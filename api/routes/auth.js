@@ -14,6 +14,7 @@ module.exports = router;
 async function authenticate(req, res, next) {
   try {
     const user = await userService.authenticate(req.body);
+    console.log(req.body);
     user
       ? res.json(user)
       : res.status(400).json({ message: "Email or password is incorrect" });
