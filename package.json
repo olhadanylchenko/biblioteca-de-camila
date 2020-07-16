@@ -4,7 +4,8 @@
   "description": "This is an app inspired by my friend Camila's wish to track her books and movies. You can install the Beta version from the Releases page (macOS only for now).",
   "main": "index.js",
   "scripts": {
-    "start": "cd api && npm install && npm start"
+    "start": "cd api && npm install && npm start",
+    "log": "heroku logs --tail --app cami-api"
   },
   "repository": {
     "type": "git",
