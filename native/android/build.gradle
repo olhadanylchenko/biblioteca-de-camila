@@ -16,6 +16,9 @@ buildscript {
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+
+        // For animated GIF support
+        implementation 'com.facebook.fresco:animated-gif:2.0.0'
     }
 }
 
