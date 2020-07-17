@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Linking, Platform } from "react-native";
+import { Image, Platform, View } from "react-native";
 import "react-native-gesture-handler";
 import AsyncStorage from "@react-native-community/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+
+import { UserContext } from "./contexts/UserContext";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import Home from "./components/Home";
-import { UserContext } from "./contexts/UserContext";
-import { AppLoading } from "expo";
+
+import { screen } from "./utils/screen";
 
 const Stack = createStackNavigator();
 
@@ -19,8 +21,9 @@ const storageKeys = {
 
 export function App() {
   const [user, setUser] = useState(null);
-  const [isReady, setIsReady] = React.useState(false);
-  const [initialState, setInitialState] = React.useState();
+  const [isReady, setIsReady] = useState(false);
+  const [splashComplete, setSplashComplete] = useState(false);
+  const [initialState, setInitialState] = useState();
 
   useEffect(() => {
     const restoreState = async () => {
@@ -59,8 +62,24 @@ export function App() {
     AsyncStorage.setItem(storageKeys.USER, JSON.stringify(user));
   }, [user]);
 
-  if (!isReady) {
-    return AppLoading();
+  useEffect(() => {
+    setTimeout(() => {
+      setSplashComplete(true);
+    }, 3000);
+  }, []);
+
+  if (!isReady || !splashComplete) {
+    return (
+      <View style={{ flex: 1, backgroundColor: "#181b25" }}>
+        <Image
+          source={require("./assets/loading.gif")}
+          style={{
+            ...screen,
+            resizeMode: "stretch",
+          }}
+        ></Image>
+      </View>
+    );
   }
 
   return (
