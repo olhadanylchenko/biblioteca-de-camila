@@ -1,6 +1,9 @@
 import React, { useState, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
-import { StyleSheet, Text, View, TextInput, Button } from "react-native";
+import { StyleSheet, Text, View, TextInput } from "react-native";
+import Button from "react-native-pure-button";
+
+import { screen } from "../utils/screen";
 
 export default function Login({ navigation }) {
   const { user, setUser } = useContext(UserContext);
@@ -40,7 +43,7 @@ export default function Login({ navigation }) {
       <TextInput
         style={{
           height: 40,
-          width: 300,
+          width: Math.min(screen.width * 0.75, 300),
           padding: 10,
           borderColor: "white",
           color: "white",
@@ -53,7 +56,7 @@ export default function Login({ navigation }) {
         secureTextEntry={true}
         style={{
           height: 40,
-          width: 300,
+          width: Math.min(screen.width * 0.75, 300),
           padding: 10,
 
           borderColor: "white",
@@ -63,19 +66,38 @@ export default function Login({ navigation }) {
         onChangeText={(text) => setPassword(text)}
         value={password}
       />
-
-      <Button
-        onPress={onPressLogin}
-        title="Login"
-        color="#841584"
-        accessibilityLabel="Login"
-      />
-      <Button
-        onPress={goToSignup}
-        title="Go to Signup"
-        color="#841584"
-        accessibilityLabel="Go to Signup"
-      />
+      <View
+        style={{ width: Math.min(screen.width * 0.75, 300), color: "black" }}
+      >
+        <Button
+          style={{
+            backgroundColor: "#808080",
+            borderColor: "white",
+            alignItems: "center",
+            padding: 5,
+            marginTop: 5,
+            border: "white 1px solid",
+          }}
+          textStyle={{ color: "white", textTransform: "uppercase" }}
+          onPress={onPressLogin}
+        >
+          Login
+        </Button>
+        <Button
+          style={{
+            backgroundColor: "#808080",
+            borderColor: "white",
+            alignItems: "center",
+            padding: 5,
+            marginTop: 5,
+            border: "white 1px solid",
+          }}
+          textStyle={{ color: "white" }}
+          onPress={goToSignup}
+        >
+          Go to Signup
+        </Button>
+      </View>
     </View>
   );
 }
