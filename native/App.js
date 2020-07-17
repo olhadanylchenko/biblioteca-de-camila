@@ -4,6 +4,7 @@ import "react-native-gesture-handler";
 import AsyncStorage from "@react-native-community/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import Button from "react-native-pure-button";
 
 import { UserContext } from "./contexts/UserContext";
 import Login from "./components/Login";
@@ -25,6 +26,7 @@ export function App() {
   const [splashComplete, setSplashComplete] = useState(false);
   const [initialState, setInitialState] = useState();
 
+  // restore state
   useEffect(() => {
     const restoreState = async () => {
       try {
@@ -82,6 +84,10 @@ export function App() {
     );
   }
 
+  const onPressLogout = async () => {
+    setUser(null);
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -101,6 +107,7 @@ export function App() {
           <Stack.Screen name="Signup" component={Signup} />
         </Stack.Navigator>
       </NavigationContainer>
+      <Button onPress={onPressLogout}>Logout</Button>
     </UserContext.Provider>
   );
 }
