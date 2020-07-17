@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { StyleSheet, Text, View, TextInput } from "react-native";
 import Button from "react-native-pure-button";
+import { fetchFromApi } from "../utils/api";
 
 import { screen } from "../utils/screen";
 
@@ -12,9 +13,7 @@ export default function Login({ navigation }) {
 
   const onPressLogin = async () => {
     try {
-      const res = await fetch(
-        "https://cami-api.herokuapp.com/users/authenticate",
-        {
+      const res = await fetchFromApi("/users/authenticate", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
