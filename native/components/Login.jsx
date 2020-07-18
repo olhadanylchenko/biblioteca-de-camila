@@ -10,21 +10,19 @@ export default function Login({ navigation }) {
   const { user, setUser } = useContext(UserContext);
   const [email, setEmail] = useState("user-test2@gmail.com");
   const [password, setPassword] = useState("12345678");
-
   const onPressLogin = async () => {
     try {
       const res = await fetchFromApi("/users/authenticate", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        }
-      );
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
       const user = await res.json();
 
       setUser(user);
@@ -37,6 +35,10 @@ export default function Login({ navigation }) {
   const goToSignup = () => {
     navigation.navigate("Signup");
   };
+  const goToHome = () => {
+    navigation.navigate("Home");
+  };
+
   return (
     <View style={styles.container}>
       <TextInput
@@ -95,6 +97,20 @@ export default function Login({ navigation }) {
           onPress={goToSignup}
         >
           Go to Signup
+        </Button>
+        <Button
+          style={{
+            backgroundColor: "#808080",
+            borderColor: "white",
+            alignItems: "center",
+            padding: 5,
+            marginTop: 5,
+            border: "white 1px solid",
+          }}
+          textStyle={{ color: "white" }}
+          onPress={goToHome}
+        >
+          Go to Home
         </Button>
       </View>
     </View>
